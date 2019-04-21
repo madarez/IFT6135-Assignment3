@@ -8,8 +8,10 @@ Srinivas Venkattaramanujam
 Repo for IFT6135 Assignment3       
 Data from svhn are not directly included, but the notebook should load them
 
-sample_directory contains samples from GAN and VAE      
-from_TA contains  the code given by the TA's         
+sample_directory contains samples from GAN and VAE       
+from_TA contains the code given by the TA's          
+GAN_save contains state_dict for the GAN          
+GAN_save/samples contains samples from the GAN during training          
 
 Q1   : code for part 1     
 A3P2 : code for part 2         

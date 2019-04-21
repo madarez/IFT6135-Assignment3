@@ -2,6 +2,5 @@
 *.tex
 *.pt
 svhn
-from_TA
 old
 sample_directory/OTHER
