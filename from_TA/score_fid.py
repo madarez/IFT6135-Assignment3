@@ -75,61 +75,58 @@ def extract_features(classifier, data_loader):
 def calculate_fid_score(sample_feature_iterator,
                         testset_feature_iterator):
     """
-    To be implemented by you!
+    The following link is an example of implementation of
+    FID score computation in pytorch:
+        https://github.com/mseitzer/pytorch-fid
+
+    We used it has reference to make sure we were on the right track.
+    For exemple the author of the repo above included way to deal with
+    the (normal) presence of (very small e.g. 1e-18) imaginary
+    component of the output of linalg.sqrtm that computes the square
+    root of a matrix. These imaginary component comes from the fact
+    that computing the square root of a matrix requires to
+    do floating point arithmetic with imarinary component. So any number
+    smaller than some machine-epsilon can just be interpreted as a true zero.
     """
 
-    n_samples = 1000
-    h_size    = 512
-    sample_features  = np.empty([n_samples,h_size])
-    # testset_features = np.empty([n_samples,h_size])
+    sample_features_list  = []
     testset_features_list = []
 
     # stats for samples
     for i,h in enumerate(sample_feature_iterator):
-        sample_features[i,:] = h
+        sample_features_list += [h]
 
+    sample_features = np.asarray(sample_features_list, dtype=np.float64)
     avg_sample = np.mean(sample_features, axis=0, dtype=np.float64)
     cov_sample = np.cov(sample_features,rowvar=False)
 
     # stats for test
     for i,h in enumerate(testset_feature_iterator):
         testset_features_list += [h]
-        # # previous implementation :
-        # if i >= n_samples : # enough data collected
-        #     break
-        # testset_features[i,:] = h
-
 
     testset_features = np.asarray(testset_features_list, dtype=np.float64)
-
     avg_test = np.mean(testset_features, axis=0, dtype=np.float64)
     cov_test = np.cov(testset_features,rowvar=False)
 
+    # mu should be 512, cov should be 512 x 512
     # print( "mu  shape " , avg_test.shape )
     # print( "cov shape " , cov_test.shape )
-    # frechet distance :
-    diff       = avg_sample - avg_test
-    covmean, _ = linalg.sqrtm(cov_sample.dot(cov_test), disp=False)
 
-    ############ TODO : remove this ##############
-    if not np.isfinite(covmean).all():
-        msg = ('fid calculation produces singular product; '
-               'adding %s to diagonal of cov estimates') % eps
-        print(msg)
-        offset = np.eye(sigma1.shape[0]) * eps
-        covmean = linalg.sqrtm((sigma1 + offset).dot(sigma2 + offset))
+    #
+    delta              = avg_sample - avg_test
+    cov_sample_test, _ = linalg.sqrtm(cov_sample.dot(cov_test), disp=False)
 
-    # Numerical error might give slight imaginary component
-    if np.iscomplexobj(covmean):
-        if not np.allclose(np.diagonal(covmean).imag, 0, atol=1e-3):
-            m = np.max(np.abs(covmean.imag))
-            raise ValueError('Imaginary component {}'.format(m))
-        covmean = covmean.real
+    # imaginary component, we only care about the diagonal component
+    # if they are close enough to zero, we set them to true zero
+    if np.iscomplexobj(cov_sample_test): # check if it has an imaginary part (even zero)
+        if not np.allclose(np.diagonal(cov_sample_test).imag, 0, atol=1e-5):
+            # above this threshold, warn user
+            print("Imaginary component too high in computation, might be an issue")
+        cov_sample_test = cov_sample_test.real
 
     ##################################################
-    tr_covmean = np.trace(covmean)
 
-    FID_score = diff.dot(diff) + np.trace(cov_sample) + np.trace(cov_test) - 2 * tr_covmean
+    FID_score = delta.dot(delta) + np.trace(cov_sample) + np.trace(cov_test) - 2 * np.trace(cov_sample_test)
     return FID_score
 
 
