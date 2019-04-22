@@ -2,7 +2,6 @@
 *.tex
 *.pt
 svhn
-old
 sample_directory/OTHER
-!old\save_5\*.pt
-!GAN_save\samples\from_rez\*.pt
+!old/save_5/best_params.pt
+!GAN_save/samples/from_rez/netG_64.pt

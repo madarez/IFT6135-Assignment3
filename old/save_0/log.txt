@@ -1,0 +1,80 @@
+epoch: 1
+train loss: 2918.0105197245725
+valid loss: 2902.710893789233
+best val: inf
+time (s) spent in epoch: 628.3159377574921
+epoch: 1
+train loss: 2918.0105197245725
+valid loss: 2902.710893789233
+best val: inf
+time (s) spent in epoch: 743.5575292110443
+epoch: 1
+train loss: 2918.0105197245725
+valid loss: 2902.710893789233
+best val: 2902.710893789233
+time (s) spent in epoch: 792.200311422348
+epoch: 1
+train loss: 2908.986029730903
+valid loss: 2889.9835093135916
+best val: 2889.9835093135916
+time (s) spent in epoch: 221.18965125083923
+epoch: 2
+train loss: 2902.8858325704678
+valid loss: 2884.6689804943367
+best val: 2884.6689804943367
+time (s) spent in epoch: 220.49561142921448
+epoch: 3
+train loss: 2900.0715711094813
+valid loss: 2883.0252765505593
+best val: 2883.0252765505593
+time (s) spent in epoch: 221.5436716079712
+epoch: 1
+train loss: 2895.236004023589
+valid loss: 2892.521530677532
+best val: 2883.0252765505593
+time (s) spent in epoch: 110.70033144950867
+epoch: 2
+train loss: 2894.6037682821584
+valid loss: 2892.2908893453664
+best val: 2883.0252765505593
+time (s) spent in epoch: 112.61544108390808
+epoch: 3
+train loss: 2893.8442467977834
+valid loss: 2892.008612271013
+best val: 2883.0252765505593
+time (s) spent in epoch: 105.78205060958862
+epoch: 4
+train loss: 2893.3601102607195
+valid loss: 2891.797258048222
+best val: 2883.0252765505593
+time (s) spent in epoch: 99.46468925476074
+epoch: 5
+train loss: 2892.825519413911
+valid loss: 2889.8905366042563
+best val: 2883.0252765505593
+time (s) spent in epoch: 100.74176239967346
+epoch: 6
+train loss: 2892.7152161117674
+valid loss: 2889.8563611260774
+best val: 2883.0252765505593
+time (s) spent in epoch: 99.98471879959106
+epoch: 7
+train loss: 2892.258171613826
+valid loss: 2889.8045191271553
+best val: 2883.0252765505593
+time (s) spent in epoch: 100.50874876976013
+epoch: 8
+train loss: 2891.864408271257
+valid loss: 2889.2276695514547
+best val: 2883.0252765505593
+time (s) spent in epoch: 98.1946165561676
+epoch: 9
+train loss: 2891.435674149861
+valid loss: 2891.454981310614
+best val: 2883.0252765505593
+time (s) spent in epoch: 98.2906219959259
+epoch: 10
+train loss: 2891.041855922965
+valid loss: 2892.376258587015
+best val: 2883.0252765505593
+time (s) spent in epoch: 98.23461890220642

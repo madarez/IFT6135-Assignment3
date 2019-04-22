@@ -136,6 +136,7 @@ def calculate_fid_score(sample_feature_iterator,
 
     #
     delta = avg_sample - avg_test
+    # the matrix square root can be computed either way
     if True : # computation 1
         cov_sample_test, _ = linalg.sqrtm(cov_sample.dot(cov_test), disp=False)
     else : # computation 2
