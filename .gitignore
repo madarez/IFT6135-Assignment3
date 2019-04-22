@@ -4,3 +4,5 @@
 svhn
 old
 sample_directory/OTHER
+!old\save_5\*.pt
+!GAN_save\samples\from_rez\*.pt

@@ -40,6 +40,24 @@ def get_sample_loader(path, batch_size):
     )
     return data_loader
 
+def get_train_loader(batch_size):
+    """
+    Downloads (if it doesn't already exist) SVHN test into
+    [pwd]/svhn.
+
+    Returns an iterator over the tensors of the images
+    of dimension (batch_size, 3, 32, 32)
+    """
+    trainset = torchvision.datasets.SVHN(
+        SVHN_PATH, split='train',
+        download=True,
+        transform=classify_svhn.image_transform
+    )
+    trainloader = torch.utils.data.DataLoader(
+        trainset,
+        batch_size=batch_size,
+    )
+    return trainloader
 
 def get_test_loader(batch_size):
     """
@@ -101,7 +119,11 @@ def calculate_fid_score(sample_feature_iterator,
     cov_sample = np.cov(sample_features,rowvar=False)
 
     # stats for test
+    # you may want to not load all of them to speed the computation
+    # e.g. break after 1000 images
     for i,h in enumerate(testset_feature_iterator):
+        if i >= 100000:
+            break
         testset_features_list += [h]
 
     testset_features = np.asarray(testset_features_list, dtype=np.float64)
@@ -113,8 +135,8 @@ def calculate_fid_score(sample_feature_iterator,
     # print( "cov shape " , cov_test.shape , cov_sample.shape )
 
     #
-    delta              = avg_sample - avg_test
-    if False : # computation 1
+    delta = avg_sample - avg_test
+    if True : # computation 1
         cov_sample_test, _ = linalg.sqrtm(cov_sample.dot(cov_test), disp=False)
     else : # computation 2
         eps     = eps=1e-6
@@ -129,12 +151,23 @@ def calculate_fid_score(sample_feature_iterator,
             print("Imaginary component too high in computation, might be an issue")
         else :
             print("Small imaginary component ignored")
-            
+
         cov_sample_test = cov_sample_test.real
 
     ##################################################
-
-    FID_score = delta.dot(delta) + np.trace(cov_sample) + np.trace(cov_test) - 2 * np.trace(cov_sample_test)
+    mu_norm      = delta.dot(delta)
+    sample_var   = np.trace(cov_sample)
+    test_var     = np.trace(cov_test)
+    mixted_trace = 2 * np.trace(cov_sample_test)
+    print("term 1 : {t1} \nterm 2 : {t2} \nterm 3 : {t3} \nterm 4 : {t4}".format(
+            t1=mu_norm,
+            t2=sample_var,
+            t3=test_var,
+            t4=mixted_trace
+            )
+        )
+    # print(delta)
+    FID_score = mu_norm + sample_var + test_var - mixted_trace
     return FID_score
 
 
@@ -162,9 +195,12 @@ if __name__ == "__main__":
 
     sample_loader = get_sample_loader(args.directory,
                                       PROCESS_BATCH_SIZE)
+    # sample_loader = get_train_loader(PROCESS_BATCH_SIZE)
     sample_f = extract_features(classifier, sample_loader)
 
     test_loader = get_test_loader(PROCESS_BATCH_SIZE)
+    # test_loader = get_sample_loader("../sample_directory/VALIDATION",
+    #                                   PROCESS_BATCH_SIZE)
     test_f = extract_features(classifier, test_loader)
 
     fid_score = calculate_fid_score(sample_f, test_f)
