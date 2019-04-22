@@ -109,12 +109,17 @@ def calculate_fid_score(sample_feature_iterator,
     cov_test = np.cov(testset_features,rowvar=False)
 
     # mu should be 512, cov should be 512 x 512
-    # print( "mu  shape " , avg_test.shape )
-    # print( "cov shape " , cov_test.shape )
+    # print( "mu  shape " , avg_test.shape , avg_sample.shape )
+    # print( "cov shape " , cov_test.shape , cov_sample.shape )
 
     #
     delta              = avg_sample - avg_test
-    cov_sample_test, _ = linalg.sqrtm(cov_sample.dot(cov_test), disp=False)
+    if False : # computation 1
+        cov_sample_test, _ = linalg.sqrtm(cov_sample.dot(cov_test), disp=False)
+    else : # computation 2
+        eps     = eps=1e-6
+        offset  = np.eye(avg_test.shape[0]) * eps
+        cov_sample_test = linalg.sqrtm((cov_sample + offset).dot(cov_test + offset))
 
     # imaginary component, we only care about the diagonal component
     # if they are close enough to zero, we set them to true zero
@@ -122,6 +127,9 @@ def calculate_fid_score(sample_feature_iterator,
         if not np.allclose(np.diagonal(cov_sample_test).imag, 0, atol=1e-5):
             # above this threshold, warn user
             print("Imaginary component too high in computation, might be an issue")
+        else :
+            print("Small imaginary component ignored")
+            
         cov_sample_test = cov_sample_test.real
 
     ##################################################
