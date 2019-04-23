@@ -21,7 +21,7 @@ A3P2 : code for part 2
 Part3: code for part 3 (training + Qualitative evaluation) for VAE             
 Part3_GAN : code for part 3 (training + Qualitative evaluation) for GAN                
 
-from_TA\score_fid -> contains implementation of calculate_fid_score            
+from_TA/score_fid -> contains implementation of calculate_fid_score            
 from its directory use the following command line to obtain FID score for the models :            
 python score_fid.py ../sample_directory/VAE         
 python score_fid.py ../sample_directory/GAN128             
