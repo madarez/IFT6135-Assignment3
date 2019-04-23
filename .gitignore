@@ -5,3 +5,4 @@ svhn
 sample_directory/OTHER
 !old/save_5/best_params.pt
 !GAN_save/samples/from_rez/netG_64.pt
+!GAN_save/samples/from_rez/netG_128.pt
