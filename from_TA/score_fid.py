@@ -160,6 +160,7 @@ def calculate_fid_score(sample_feature_iterator,
     sample_var   = np.trace(cov_sample)
     test_var     = np.trace(cov_test)
     mixted_trace = 2 * np.trace(cov_sample_test)
+    # print the value of each term to detect any problem
     print("term 1 : {t1} \nterm 2 : {t2} \nterm 3 : {t3} \nterm 4 : {t4}".format(
             t1=mu_norm,
             t2=sample_var,
@@ -200,8 +201,8 @@ if __name__ == "__main__":
     sample_f = extract_features(classifier, sample_loader)
 
     test_loader = get_test_loader(PROCESS_BATCH_SIZE)
-    # test_loader = get_sample_loader("../sample_directory/VALIDATION",
-    #                                   PROCESS_BATCH_SIZE)
+    # test_loader = get_sample_loader("../sample_directory/TEST",
+    #                                    PROCESS_BATCH_SIZE)
     test_f = extract_features(classifier, test_loader)
 
     fid_score = calculate_fid_score(sample_f, test_f)
