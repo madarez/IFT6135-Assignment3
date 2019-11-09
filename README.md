@@ -1,15 +1,15 @@
 # [IFT6135-Assignment3](https://www.overleaf.com/read/msxwmbbvfxrd), Dr. Aaron Courville
 
-## Authors:
-  * Jean-Philippe Gagnon Fleury        
-  * Hugo Côté        
-  * Ahmadreza Godarzvandchegini      
-  * Srinivas Venkattaramanujam      
-
 <p align="center">
   <img src="Training%20Evolution%20of%20GAN%20per%20epoch/samples_25499.jpg?raw=true" alt="Generated samples in the final epoch" title="Generated samples in the final epoch" />
   <br><b>Generated samples in the final epoch</b>
 </p>
+
+## Authors:
+  * Jean-Philippe Gagnon Fleury
+  * Hugo Côté
+  * AhmadReza GodarzvandChegini
+  * Srinivas Venkattaramanujam
 
 ## Files and Directories:
 sample_directory contains samples from GAN and VAE
